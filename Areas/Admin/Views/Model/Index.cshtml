@@ -1,0 +1,37 @@
+﻿@model IEnumerable<Model>
+
+<div class="container">
+    <table class="table table-sm">
+        <thead>
+            <tr>
+                <th scope="col">Id</th>
+                <th scope="col">Name</th>
+                <th scope="col">Brand</th>
+                <th scope="col">Update</th>
+                <th scope="col">Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <th scope="row">@item.Id</th>
+                    <th>@item.Name</th>
+                    <th>@item.Brand.Name</th>
+                    <td><a asp-controller="model" asp-action="update" asp-route-id="@item.Id"><i class="fas fa-edit text text-primary"></i></a></td>
+                    <td><a onclick="if(!confirm('Are Your Sure?')){return false;}" asp-controller="model" asp-action="delete" asp-route-id="@item.Id" class=" delete-item"><i class="fas fa-trash text text-danger"></i></a></td>
+                </tr>
+            }
+
+        </tbody>
+    </table>
+    <div>
+        <a asp-controller="model" asp-action="create" style="display: block; text-decoration: none; color: white; width: 100%; height: 100%"> <div style="width:100%; " class="btn btn-outline-success">Blog yarat </div></a>
+    </div>
+
+</div>
+
+
+
+@*burada maragli bir olay odurki return false qoymurki a tago hereket edir bir nov preventdefault ozeliiyi atamis olur*@

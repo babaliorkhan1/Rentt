@@ -1,0 +1,264 @@
+﻿@{
+    Layout = null;
+}
+
+
+@if (!string.IsNullOrWhiteSpace((string)TempData["odenis"]))
+{
+    <div style="display:none" id="alert-message">@TempData["odenis"]</div>
+}
+
+
+@model PaymentViewModel
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="~/assets/HomepaGE/index.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark p-3 bg-dark" id="headerNav">
+        <div class="container-fluid">
+            <a class="navbar-brand d-block d-lg-none" href="#">
+                <img src="~/assets/Images/afn logo white text 1.png" height="60" />
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class=" collapse navbar-collapse" id="navbarNavDropdown">
+                <ul class="navbar-nav mx-auto ">
+                    <li class="nav-item">
+                        <a class="nav-link mx-2 active" aria-current="page" asp-controller="home" asp-action="index">Home</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link mx-2" asp-controller="car" asp-action="index">Rental Cars</a>
+                    </li>
+                    <li class="nav-item d-none d-lg-block">
+                        <a class="nav-link mx-2" href="#">
+                            <img src="~/assets/Images/afn logo white text 1.png" height="60" />
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link mx-2" asp-controller="company" asp-action="index">Company</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link mx-2" asp-controller="car" asp-action="GetAll">Secilmishler<i class="fa-solid fa-heart"></i></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <h1>Onlayn avtomobil icarəsi</h1>
+        <div class="card3">
+            <div id="placingOrder">
+                <form method="post" asp-controller="payment" asp-action="userpayment">
+                <div class="select">
+                    <div>
+                       
+                        <p>Brand</p>
+                        <div class="form-group">
+                            <select class="form-select" asp-for="BrandId">
+                                    <option value="@Model.BrandId">@Model.Brand?.Name</option>
+                                
+                            </select>
+                        </div>
+                    </div>
+                    <div>
+                        <p>Model</p>
+                        <div class="form-group">
+
+                            <select class="form-select" asp-for="ModelId">
+                                <option value="@Model.ModelId">@Model.Model?.Name</option>
+                                
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="select">
+                    <div>
+                        <p>City</p>
+
+                        <div class="form-group">
+                            <select class="form-select" asp-for="CityId">
+                                <option value="@null">City</option>
+                                @foreach (var item in Model.Cities)
+                                {
+                                    <option value="@item.Id">@item.Name</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                  
+                    <input id="unvan" placeholder="Unvan"  asp-for="@Model.Address" type="text">
+                </div>
+                <div class="select">
+                    <input id="input1" type="text" asp-for="@Model.PickUp" placeholder="tehvil alinma tarixi"
+                           onfocus="(this.type='date')">
+                    <input id="input1" type="text"  asp-for="@Model.Dropoff" placeholder="tehvil verilme tarixi"
+                           onfocus="(this.type='date')">
+                </div>
+                <div class="select">
+                    <input id="input" type="text"  value="@Model.AppUser.Name" name="@Model.AppUser.Name" placeholder="Adiniz">
+                    <input id="input" type="text" value="@Model.AppUser.SurName" name="@Model.AppUser.SurName" placeholder="soyadiniz">
+                </div>
+                <div class="select">
+                    <input id="input" type="email" value="@Model.AppUser.Email" name="@Model.AppUser.Email" placeholder="email">
+                    <input id="input" type="number"  asp-for="@Model.PhoneNumber" placeholder="Elaqe nomreniz">
+
+                </div>
+
+
+                    <div style="display:flex;justify-content:center;align-items:center;"> <button type="submit"> odenis davam et</button></div>
+                </form>
+                <a id="atag" asp-controller="payment" style="display:none;" asp-action="userpayment"> <button id="placeOrderBtn" onclick="placeOrder()" class="container">Odenisee davam et</button></a>
+
+             
+            </div>
+        </div>
+
+    </div>
+
+
+
+
+
+
+
+
+
+    <footer class="bg-dark text-white text-center text-lg-start">
+        <!-- Grid container -->
+        <div class="container p-4">
+            <!--Grid row-->
+            <div class="row">
+                <!--Grid column-->
+                <div class="col-lg-6 col-md-12 mb-4 mb-md-0">
+                    <h5 class="text-uppercase">Footer Content</h5>
+
+                    <p>
+                        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Iste atque ea quis
+                        molestias. Fugiat pariatur maxime quis culpa corporis vitae repudiandae aliquam
+                        voluptatem veniam, est atque cumque eum delectus sint!
+                    </p>
+                </div>
+                <!--Grid column-->
+                <!--Grid column-->
+                <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
+                    <h5 class="text-uppercase">Links</h5>
+
+                    <ul class="list-unstyled mb-0">
+                        <li>
+                            <a href="#!" class="text-white">Home</a>
+                        </li>
+                        <li>
+                            <a href="#!" class="text-white">Rental Cars</a>
+                        </li>
+                        <li>
+                            <a href="#!" class="text-white">Company</a>
+                        </li>
+                        <li>
+                            <a href="../Final4/index2.html" class="text-white">Need To Know</a>
+                        </li>
+                    </ul>
+                </div>
+                <!--Grid column-->
+                <!--Grid column-->
+                <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
+                    <h5 class="text-uppercase mb-0">Links</h5>
+
+                    <ul class="list-unstyled">
+                        <li>
+                            <a href="#!" class="text-white">Premium</a>
+                        </li>
+                        <li>
+                            <a href="#!" class="text-white">Business</a>
+                        </li>
+                        <li>
+                            <a href="#!" class="text-white">Econom</a>
+                        </li>
+                        <li>
+                            <a href="#!" class="text-white">Karavan</a>
+                        </li>
+                    </ul>
+                </div>
+                <!--Grid column-->
+            </div>
+            <!--Grid row-->
+        </div>
+        <!-- Grid container -->
+        <!-- Copyright -->
+        <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
+        </div>
+        <!-- Copyright -->
+    </footer>
+
+
+   <script>
+        const alertmessage = document.getElementById("alert-message")
+        const button=document.getElementById("atag")
+        const button1 = button.innerHTML;
+        if (alertmessage != undefined) {
+
+
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: `${button1}`
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    Swal.fire(
+                        'Deleted!',
+                        'Your file has been deleted.',
+                        'success'
+                    )
+                }
+            })
+          
+        }
+
+    </script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script>
+        function placeOrder() {
+            const btn = $('#placeOrderBtn');
+
+            $(btn).attr('disable', 'disabled');
+            
+            $.ajax({
+                url: "@Url.Action("PlaceOrder")",
+                success: async function (response) {
+                    if (response.message.slice(0, 5) == "https") {
+                        //toastr.success("Uğurlu", "Ödəniş səhifəsinə yönləndirilir...");
+                        window.location.replace(response.message);
+                        return;
+                    }
+                    //toastr.error("Uğursuz", response.message);
+                    return;
+
+                },
+                error: function (response) {
+                    $(btn).removeAttr('disable');
+                    //toastr.error(response.message, 'Error!');
+                }
+            })
+        }
+    </script>
+</body>
+</html>

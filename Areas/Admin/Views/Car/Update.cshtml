@@ -1,0 +1,172 @@
+﻿@model Car
+
+<div class="container">
+    <form method="post" enctype="multipart/form-data">
+        <div class="alert alert-danger" asp-validation-summary="ModelOnly"></div>
+        <div class="form-group">
+            <label asp-for="Name"></label>
+            <input type="text" class="form-control" asp-for="Name" />
+            <span class="text text-danger" asp-validation-for="Name"></span>
+
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Price"></label>
+            <input type="text" class="form-control" asp-for="Price" />
+            <span class="text text-danger" asp-validation-for="Price"></span>
+
+        </div>
+        <div class="form-group">
+            <label asp-for="Year"></label>
+            <input type="text" class="form-control" asp-for="Year" />
+            <span class="text text-danger" asp-validation-for="Year"></span>
+
+        </div>
+        <div class="form-group">
+            <label asp-for="Info1"></label>
+            <input type="text" class="form-control" asp-for="Info1" />
+            <span class="text text-danger" asp-validation-for="Info1"></span>
+
+        </div>
+        <div class="form-group">
+            <label asp-for="Info2"></label>
+            <input type="text" class="form-control" asp-for="Info2" />
+            <span class="text text-danger" asp-validation-for="Info2"></span>
+
+        </div>
+        <div class="form-group">
+            <label asp-for="Info3"></label>
+            <input type="text" class="form-control" asp-for="Info3" />
+            <span class="text text-danger" asp-validation-for="Info3"></span>
+
+        </div>
+
+
+
+        <div class="form-group">
+            <select asp-for="PositionId" class="form-select" aria-label="Disabled select example">
+                <option>Choose Position</option>
+                @foreach (var item in ViewBag.Positions)
+                {
+                 if (Model.PositionId!=null)
+                    {
+
+
+                        if (Model.PositionId==item.Id)
+                        {
+                            <option selected value="@item.Id">@item.Name</option>
+                        }
+                        <option value="@item.Id">@item.Name</option>
+                    }
+
+                   
+                }
+
+            </select>
+            <span class="text text-danger" asp-validation-for="PositionId"></span>
+        </div>
+
+        <div class="form-group">
+            <select asp-for="BrandId" class="form-select" aria-label="Disabled select example">
+                <option>Choose Brand</option>
+                @foreach (var item in ViewBag.Brands)
+                {
+                  @if (Model.BrandId==item.Id)
+                    {
+                        <option selected value="@item.Id">@item.Name</option>
+                    }
+                    else
+                    {
+                        <option value="@item.Id">@item.Name</option>
+                    }
+                }
+
+            </select>
+            <span class="text text-danger" asp-validation-for="BrandId"></span>
+        </div>
+
+
+        <div class="form-group">
+            <select asp-for="ModelId" class="form-select" aria-label="Disabled select example">
+                <option>Choose Models</option>
+                @foreach (var item in ViewBag.Models)
+                {
+                  @if (Model.ModelId==item.Id)
+                    {
+                        <option selected value="@item.Id">@item.Name</option>
+                    }
+                    else
+                    {
+                        <option value="@item.Id">@item.Name</option>
+                    }
+                }
+
+            </select>
+            <span class="text text-danger" asp-validation-for="ModelId"></span>
+        </div>
+
+
+
+        <div class="form-group">
+            <select asp-for="YearId" class="form-select" aria-label="Disabled select example">
+                <option>Choose Models</option>
+                @foreach (var item in ViewBag.Years)
+                {
+                    @if (Model.YearId == item.Id)
+                    {
+                        <option selected value="@item.Id">@item.year</option>
+                    }
+                    else
+                    {
+                        <option value="@item.Id">@item.year</option>
+                    }
+                }
+
+            </select>
+            <span class="text text-danger" asp-validation-for="YearId"></span>
+        </div>
+
+
+
+
+        <div class="form-group">
+            <label asp-for="PriceInfo1"></label>
+            <input type="text" class="form-control" asp-for="PriceInfo1" />
+            <span class="text text-danger" asp-validation-for="PriceInfo1"></span>
+
+        </div>
+
+        <div class="form-group">
+            <label asp-for="PriceInfo2"></label>
+            <input type="text" class="form-control" asp-for="PriceInfo2" />
+            <span class="text text-danger" asp-validation-for="PriceInfo2"></span>
+
+        </div>
+
+        <div class="form-group">
+            <label asp-for="PriceInfo3"></label>
+            <input type="text" class="form-control" asp-for="PriceInfo3" />
+            <span class="text text-danger" asp-validation-for="PriceInfo3"></span>
+
+        </div>
+
+        <div class="form-group">
+            <label asp-for="ModelName"></label>
+            <input type="text" class="form-control" asp-for="ModelName" />
+            <span class="text text-danger" asp-validation-for="ModelName"></span>
+
+        </div>
+
+
+        <div class="form-group">
+            <label asp-for="FormFiles"></label>
+            <input multiple accept="image/*" type="file" class="form-control" asp-for="FormFiles" />
+            <span class="text text-danger" asp-validation-for="FormFiles"></span>
+
+        </div>
+        @Html.AntiForgeryToken()
+        <button type="submit">Update</button>
+    </form>
+</div>
+
+
